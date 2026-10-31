@@ -31,7 +31,7 @@ The model has learned the format (speaker names, line breaks, verse rhythm) and 
 
 ## 2. Sentiment analysis chatbot
 
-A feed-forward neural network trained on the [UCI Sentiment Labelled Sentences](https://archive.ics.uci.edu/dataset/331/sentiment+labelled+sentences) Amazon product reviews (included in [`data/`](data)), with NLTK tokenisation and stop-word removal, and TF-IDF features. It is wrapped in a simple chat loop:
+A feed-forward neural network trained on the [UCI Sentiment Labelled Sentences](https://archive.ics.uci.edu/dataset/331/sentiment+labelled+sentences) Amazon product reviews (included in [`data/`](data)), with text cleaning (lower-casing, removing e-mails, punctuation and digits) and TF-IDF unigram + bigram features. It is wrapped in a simple chat loop:
 
 ```
 You:      This does not work!
@@ -40,21 +40,34 @@ You:      Im so happy with the support i have got from you!
 Chatbot:  It seems like you're expressing a positive sentiment.
 ```
 
+## Running the code (VS Code / Python)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+python main.py gpt-train                          # full model; downloads Tiny Shakespeare to data/input.txt
+python main.py gpt-train --max-iters 500 --n-layer 2 --n-embd 64 --n-head 4   # quick CPU run
+python main.py gpt-generate --chars 500 --prompt "ROMEO:"
+
+python main.py sentiment-train                    # trains, prints validation report, saves the model
+python main.py chat                               # chatbot; type 'exit' to quit
+```
+
+Trained models are saved in `checkpoints/`. In VS Code, open the folder, pick the `.venv` interpreter and use the **Run and Debug** panel (`.vscode/launch.json` has a configuration for each command). `pytest` runs fast smoke tests.
+
 ## Repository contents
 
 | Path | Contents |
 |---|---|
-| [`notebooks/1.2_char_level_gpt.ipynb`](notebooks/1.2_char_level_gpt.ipynb) | Transformer language model from scratch |
-| [`notebooks/1.1_sentiment_analysis.ipynb`](notebooks/1.1_sentiment_analysis.ipynb) | Sentiment classifier and chatbot |
+| [`main.py`](main.py) | Command-line entry point |
+| [`nlp_lab/gpt.py`](nlp_lab/gpt.py) | Tokeniser, transformer language model, training and generation |
+| [`nlp_lab/sentiment.py`](nlp_lab/sentiment.py) | Text cleaning, TF-IDF classifier and chat loop |
+| [`notebooks/1.2_char_level_gpt.ipynb`](notebooks/1.2_char_level_gpt.ipynb) | Original notebook: transformer language model from scratch |
+| [`notebooks/1.1_sentiment_analysis.ipynb`](notebooks/1.1_sentiment_analysis.ipynb) | Original notebook: sentiment classifier and chatbot |
 | [`data/amazon_cells_labelled.txt`](data/amazon_cells_labelled.txt) | Labelled Amazon reviews |
 | [`docs/`](docs) | Lab report and theory answers |
-
-```bash
-pip install torch nltk scikit-learn pandas matplotlib jupyter
-# The GPT notebook expects Tiny Shakespeare as input.txt:
-curl -O https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
-jupyter notebook notebooks/
-```
 
 ## Team
 
