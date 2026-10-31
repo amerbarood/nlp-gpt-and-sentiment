@@ -64,8 +64,6 @@ Trained models are saved in `checkpoints/`. In VS Code, open the folder, pick th
 | [`main.py`](main.py) | Command-line entry point |
 | [`nlp_lab/gpt.py`](nlp_lab/gpt.py) | Tokeniser, transformer language model, training and generation |
 | [`nlp_lab/sentiment.py`](nlp_lab/sentiment.py) | Text cleaning, TF-IDF classifier and chat loop |
-| [`notebooks/1.2_char_level_gpt.ipynb`](notebooks/1.2_char_level_gpt.ipynb) | Original notebook: transformer language model from scratch |
-| [`notebooks/1.1_sentiment_analysis.ipynb`](notebooks/1.1_sentiment_analysis.ipynb) | Original notebook: sentiment classifier and chatbot |
 | [`data/amazon_cells_labelled.txt`](data/amazon_cells_labelled.txt) | Labelled Amazon reviews |
 | [`docs/`](docs) | Lab report and theory answers |
 
